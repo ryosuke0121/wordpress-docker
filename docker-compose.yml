@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_container
+    ports:
+      - "8080:80"  # ローカルの8080ポートをWordPressの80番ポートにマッピング
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ryosuke
+      WORDPRESS_DB_PASSWORD: zaq12wsx
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wp-content:/var/www/html  # wp-contentなどのファイルが格納されるディレクトリをマウント
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: mysql_container
+    environment:
+      MYSQL_DATABASE: example_db
+      MYSQL_USER: example_user
+      MYSQL_PASSWORD: example_password
+      MYSQL_ROOT_PASSWORD: example_root_password
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
